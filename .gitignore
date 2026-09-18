@@ -1,0 +1,27 @@
+# Environment & Sensitive Credentials
+.env
+backend/.env
+*.env
+
+# SQLite Databases & Local Storage
+*.sqlite
+*.sqlite-journal
+*.sqlite3
+*.db
+
+# Logs & Temporary files
+*.log
+scratch/
+
+# Dependencies (if added in the future)
+/vendor/
+/node_modules/
+
+# IDE & Editor files
+.vscode/
+.idea/
+.agents/
+
+# OS generated files
+Thumbs.db
+.DS_Store

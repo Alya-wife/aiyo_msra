@@ -1,0 +1,1764 @@
+/* ==========================================================================
+   MSRA (Money Smart Room Access) — Modern Light Blue & Pure White Design System
+   Sleek SaaS Aesthetics, Fluid Geometry, Accessible Contrast, Intuitive UX
+   Strictly NO emojis, NO AI-slop, NO clunky pills
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700;800&display=swap');
+
+/* Utilities */
+.hidden {
+  display: none !important;
+}
+
+:root {
+  /* Color Hunt Palette: #1B3C53 | #234C6A | #456882 | #E3E3E3 */
+  --color-ch-navy:        #1b3c53;  /* Deep Ocean Navy */
+  --color-ch-slate:       #234c6a;  /* Mineral Slate Blue */
+  --color-ch-steel:       #456882;  /* Muted Steel Blue */
+  --color-ch-light:       #e3e3e3;  /* Architectural Cool Light */
+
+  /* Functional Primary */
+  --color-primary:        #234c6a;  /* Core action & brand highlight */
+  --color-primary-hover:  #1b3c53;  /* Deep Navy hover */
+  --color-primary-active: #152e40;
+  --color-primary-light:  #eaf1f6;  /* Soft light steel tint for active tabs/cards */
+  --color-primary-subtle: #dbe7ef;
+  --color-primary-border: #baccd9;
+  --color-primary-glow:   rgba(35, 76, 106, 0.16);
+
+  /* White & Surface Backgrounds */
+  --color-white:          #ffffff;
+  --color-canvas:         #f8fafb;  /* Clean architectural canvas */
+  --color-surface:        #ffffff;
+  --color-surface-muted:  #e3e3e3;
+
+  /* Neutral Slate Scale tuned to Color Hunt Palette */
+  --color-slate-900:      #1b3c53;
+  --color-slate-800:      #234c6a;
+  --color-slate-700:      #2e4354;
+  --color-slate-600:      #456882;
+  --color-slate-500:      #5b7a94;
+  --color-slate-400:      #8ba4b8;
+  --color-slate-300:      #cbd8e2;
+  --color-slate-200:      #e3e3e3;
+  --color-slate-100:      #f0f4f7;
+  --color-slate-50:       #f8fafb;
+
+  /* Typography Colors (High Contrast WCAG AA > 4.5:1) */
+  --color-text-title:     #1b3c53;
+  --color-text-body:      #234c6a;
+  --color-text-muted:     #456882;
+
+  /* Status Colors */
+  --status-active-text:   #1b3c53;
+  --status-active-bg:     #eaf1f6;
+  --status-active-bdr:    #baccd9;
+
+  --status-warn-text:     #b45309;
+  --status-warn-bg:       #fffbeb;
+  --status-warn-bdr:      #fde68a;
+
+  --status-err-text:      #b91c1c;
+  --status-err-bg:        #fef2f2;
+  --status-err-bdr:       #fecaca;
+
+  /* Geometry & Radii */
+  --radius-xs:   6px;
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-xl:   20px;
+  --radius-full: 9999px;
+
+  /* Modern Shadows */
+  --shadow-sm: 0 1px 3px 0 rgba(15, 23, 42, 0.05), 0 1px 2px -1px rgba(15, 23, 42, 0.03);
+  --shadow-md: 0 4px 12px -2px rgba(15, 23, 42, 0.05), 0 2px 4px -2px rgba(15, 23, 42, 0.03);
+  --shadow-lg: 0 10px 24px -4px rgba(2, 132, 199, 0.08), 0 4px 8px -2px rgba(15, 23, 42, 0.03);
+  --shadow-xl: 0 20px 32px -6px rgba(2, 132, 199, 0.12), 0 8px 12px -4px rgba(15, 23, 42, 0.04);
+
+  /* Fonts */
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+}
+
+/* Reset & Base */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-canvas);
+  color: var(--color-text-body);
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-text-title);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+}
+
+p {
+  color: var(--color-text-body);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button, input, select, textarea {
+  font: inherit;
+  color: inherit;
+}
+
+/* ==========================================================================
+   HEADER & STREAMLINED BRANDING
+   ========================================================================== */
+.msra-header {
+  background-color: var(--color-white);
+  border-bottom: 1px solid var(--color-slate-200);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+}
+
+.msra-header-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+}
+
+.msra-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.msra-brand-logo-img {
+  height: 32px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+  border-radius: 6px;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.msra-logo-desktop {
+  display: block;
+}
+
+.msra-logo-mobile {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .msra-logo-desktop {
+    display: none !important;
+  }
+  .msra-logo-mobile {
+    display: block !important;
+    height: 34px;
+    width: auto;
+  }
+}
+
+.msra-brand:hover .msra-brand-logo-img {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.msra-brand-mark {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background-color: var(--color-primary-light);
+  border: 1px solid var(--color-primary-border);
+  overflow: hidden;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.msra-brand:hover .msra-brand-mark {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(2, 132, 199, 0.15);
+}
+
+.msra-brand-mark img {
+  width: 38px;
+  height: 38px;
+  display: block;
+}
+
+.msra-brand-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.msra-brand-name {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.msra-brand-desc {
+  font-size: 0.6875rem;
+  color: var(--color-slate-500);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Nav Links with Clean Modern SaaS Tab Design */
+.msra-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: transparent;
+  padding: 0;
+  border: none;
+  flex-shrink: 0;
+}
+
+.msra-nav-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--radius-sm);
+  color: var(--color-slate-600);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+  line-height: 1;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+  font-family: inherit;
+}
+
+.msra-nav-btn:hover {
+  color: var(--color-primary);
+  background-color: var(--color-primary-light);
+}
+
+.msra-nav-btn.active {
+  background-color: var(--color-primary-light) !important;
+  color: var(--color-primary) !important;
+  border-color: var(--color-primary-border) !important;
+  font-weight: 700 !important;
+  box-shadow: none !important;
+}
+
+.msra-nav-btn.active svg {
+  stroke: var(--color-primary) !important;
+}
+
+.msra-nav-btn.active > span:not(.msra-nav-badge) {
+  color: var(--color-primary) !important;
+}
+
+.msra-nav-badge,
+.msra-nav-btn .msra-nav-badge,
+.msra-nav-btn.active .msra-nav-badge {
+  background-color: var(--color-primary) !important;
+  color: #ffffff !important;
+  font-size: 0.6875rem !important;
+  font-weight: 800 !important;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: var(--radius-full);
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  line-height: 1 !important;
+  text-shadow: none !important;
+}
+
+/* Header Meta */
+.msra-header-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.msra-system-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-slate-700);
+  padding: 0.4rem 0.75rem;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-slate-200);
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.msra-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #10b981;
+}
+
+.msra-status-dot.offline {
+  background-color: #ef4444;
+}
+
+@media (max-width: 768px) {
+  .msra-desktop-only {
+    display: none !important;
+  }
+
+  .msra-header {
+    width: 100%;
+    overflow: visible !important;
+  }
+
+  .msra-header-inner {
+    padding: 0.5rem 0.875rem !important;
+    gap: 0.5rem !important;
+    width: 100% !important;
+  }
+
+  .msra-brand {
+    gap: 0.5rem !important;
+  }
+
+  .msra-brand-mark {
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+  .msra-brand-mark img {
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+  .msra-brand-name {
+    font-size: 1.125rem !important;
+  }
+
+  .msra-header-meta {
+    gap: 0.375rem !important;
+    margin-left: auto !important;
+  }
+
+  #msra-btn-install-pwa,
+  .msra-system-status,
+  #msra-btn-refresh {
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50% !important;
+    flex-shrink: 0 !important;
+  }
+
+  #msra-btn-install-pwa span,
+  #msra-status-text {
+    display: none !important;
+  }
+
+  .msra-main {
+    padding: 1rem 0.875rem 4rem !important;
+  }
+
+  .msra-page-title {
+    font-size: 1.25rem !important;
+  }
+}
+
+/* ==========================================================================
+   MAIN CONTAINER & PAGE HEADERS (BREATHABLE & MINIMAL)
+   ========================================================================== */
+.msra-main {
+  flex: 1;
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1.75rem 1.5rem 4rem;
+}
+
+.msra-page-header {
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.msra-page-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--color-slate-900);
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+
+/* ==========================================================================
+   FILTER & SEARCH TOOLBAR (MODERN SAAS SEGMENTED CONTROL)
+   ========================================================================== */
+.msra-filter-panel {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: none;
+}
+
+@media (min-width: 960px) {
+  .msra-filter-panel {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.msra-filter-search-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+  max-width: 440px;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-slate-200);
+  border-radius: 12px;
+  padding: 0.55rem 1rem;
+  color: var(--color-slate-400);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  transition: all 0.15s ease;
+}
+
+.msra-filter-search-group:focus-within {
+  border-color: var(--color-primary);
+  background-color: var(--color-white);
+  box-shadow: 0 0 0 3px var(--color-primary-glow);
+}
+
+.msra-filter-search-group input {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  font-size: 0.84rem;
+  font-family: inherit;
+  color: var(--color-slate-800);
+}
+
+.msra-filter-search-group input::placeholder {
+  color: var(--color-slate-400);
+}
+
+.msra-filter-tags {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background-color: #f1f5f9;
+  padding: 0.25rem;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.msra-filter-tags::-webkit-scrollbar {
+  display: none;
+}
+
+.msra-tag-btn {
+  background: transparent;
+  border: none;
+  color: var(--color-slate-600);
+  padding: 0.45rem 0.95rem;
+  border-radius: 8px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: inherit;
+}
+
+.msra-tag-btn:hover {
+  color: var(--color-primary);
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+.msra-tag-btn.active {
+  background-color: var(--color-white) !important;
+  color: var(--color-primary) !important;
+  font-weight: 700 !important;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08) !important;
+}
+
+.msra-tag-btn.active * {
+  color: var(--color-primary) !important;
+}
+
+/* ==========================================================================
+   ROOM CARDS (AIRY, LUXURIOUS, MODERN SAAS ARCHITECTURE)
+   ========================================================================== */
+.msra-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.75rem;
+}
+
+@media (max-width: 640px) {
+  .msra-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+}
+
+.msra-card {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-slate-200);
+  border-radius: 18px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 8px -2px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.02);
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+.msra-card:hover {
+  border-color: var(--color-primary-border);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px -8px rgba(2, 132, 199, 0.14), 0 4px 12px -2px rgba(15, 23, 42, 0.03);
+}
+
+.msra-card-visual {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  background-color: var(--color-slate-100);
+  overflow: hidden;
+}
+
+.msra-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.msra-card:hover .msra-card-img {
+  transform: scale(1.03);
+}
+
+.msra-card-tag-wrap {
+  position: absolute;
+  top: 0.85rem;
+  left: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.msra-card-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  background-color: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(8px);
+  color: #ffffff;
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.msra-card-body {
+  padding: 1.25rem 1.35rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.msra-card-kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+}
+
+.msra-card-kicker-sep {
+  color: var(--color-slate-300);
+}
+
+.msra-card-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--color-slate-900);
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  margin-bottom: 0.65rem;
+}
+
+.msra-card-specs {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-size: 0.75rem;
+  color: var(--color-slate-600);
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.msra-spec-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 500;
+}
+
+.msra-spec-item svg {
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.msra-spec-status {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.msra-live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.25);
+  display: inline-block;
+}
+
+.msra-card-features {
+  font-size: 0.8125rem;
+  color: var(--color-slate-500);
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.msra-card-footer {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-slate-100);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.msra-card-price {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+
+.msra-price-amount {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--color-slate-900);
+  letter-spacing: -0.02em;
+  font-feature-settings: 'tnum';
+}
+
+.msra-price-unit {
+  font-size: 0.75rem;
+  color: var(--color-slate-500);
+  font-weight: 500;
+}
+
+.msra-card-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background-color: var(--color-primary);
+  color: #ffffff;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  padding: 0.55rem 1.15rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.16s ease;
+  box-shadow: 0 2px 6px rgba(2, 132, 199, 0.25);
+  font-family: inherit;
+}
+
+.msra-card-btn:hover {
+  background-color: var(--color-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+}
+
+.msra-card-btn:active {
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   BUTTONS (SKY BLUE & WHITE LUXURY)
+   ========================================================================== */
+.msra-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4375rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  padding: 0.5625rem 1.125rem;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.msra-btn-primary {
+  background-color: var(--color-primary) !important;
+  color: var(--color-white) !important;
+  border: 1px solid var(--color-primary) !important;
+  box-shadow: 0 2px 6px rgba(2, 132, 199, 0.25);
+}
+
+.msra-btn-primary *,
+.msra-btn-primary span,
+.msra-btn-primary svg {
+  color: var(--color-white) !important;
+  stroke: var(--color-white) !important;
+  fill: none;
+}
+
+.msra-btn-primary:hover {
+  background-color: var(--color-primary-hover) !important;
+  border-color: var(--color-primary-hover) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(2, 132, 199, 0.35);
+}
+
+.msra-btn-secondary {
+  background-color: var(--color-white) !important;
+  border: 1px solid var(--color-slate-200) !important;
+  color: var(--color-slate-700) !important;
+}
+
+.msra-btn-secondary *,
+.msra-btn-secondary span {
+  color: var(--color-slate-700) !important;
+}
+
+.msra-btn-secondary:hover {
+  background-color: var(--color-primary-light) !important;
+  border-color: var(--color-primary-border) !important;
+  color: var(--color-primary) !important;
+}
+
+.msra-btn-secondary:hover *,
+.msra-btn-secondary:hover span {
+  color: var(--color-primary) !important;
+}
+
+.msra-btn-sm {
+  padding: 0.375rem 0.8125rem;
+  font-size: 0.75rem;
+  border-radius: var(--radius-sm);
+}
+
+.msra-btn-full {
+  width: 100%;
+}
+
+.msra-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* ==========================================================================
+   MODALS (CLEAN WHITE & BLUE ACCENTS)
+   ========================================================================== */
+.msra-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.msra-modal-backdrop.hidden {
+  display: none;
+}
+
+.msra-modal {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-slate-200);
+  border-radius: var(--radius-xl);
+  max-width: 540px;
+  width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+  animation: msraModalIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes msraModalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.msra-modal-header {
+  padding: 1.125rem 1.5rem;
+  border-bottom: 1px solid var(--color-slate-200);
+  background-color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.msra-modal-title {
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: var(--color-text-title);
+  letter-spacing: -0.02em;
+}
+
+.msra-modal-close {
+  background: none;
+  border: none;
+  color: var(--color-slate-400);
+  cursor: pointer;
+  padding: 0.375rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  transition: all 0.15s ease;
+}
+
+.msra-modal-close:hover {
+  color: var(--color-primary);
+  background-color: var(--color-primary-light);
+}
+
+.msra-modal-body {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.msra-modal-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--color-slate-200);
+  background-color: var(--color-canvas);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+/* User Sync Banner (Responsive & Overflow-Proof) */
+.msra-user-sync-banner {
+  background-color: var(--color-canvas);
+  border: 1px solid var(--color-slate-200);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 0.875rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  overflow: hidden;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.msra-user-sync-info {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-width: 0;
+  flex: 1 1 200px;
+  max-width: 100%;
+}
+
+.msra-user-sync-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--color-slate-200);
+  flex-shrink: 0;
+}
+
+.msra-user-sync-details {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+.msra-user-sync-name {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--color-text-title);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.msra-user-sync-meta {
+  font-size: 0.6875rem;
+  color: var(--color-text-muted);
+  margin-top: 0.15rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.msra-user-sync-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  background-color: var(--color-primary-light);
+  border: 1px solid var(--color-primary-border);
+  padding: 0.25rem 0.55rem;
+  border-radius: var(--radius-sm);
+  line-height: 1;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.msra-user-sync-badge svg {
+  width: 12px;
+  height: 12px;
+  stroke: var(--color-primary);
+  flex-shrink: 0;
+}
+
+/* Guest Sync Banner */
+.msra-guest-sync-banner {
+  background-color: var(--color-canvas);
+  border: 1px dashed var(--color-slate-300);
+  border-radius: var(--radius-md);
+  padding: 0.625rem 0.875rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.msra-guest-sync-text {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  line-height: 1.35;
+  flex: 1 1 180px;
+}
+
+@media (max-width: 640px) {
+  .msra-user-sync-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.625rem;
+    padding: 0.75rem 0.85rem;
+  }
+  .msra-user-sync-info {
+    width: 100%;
+    flex: 1 1 100%;
+  }
+  .msra-user-sync-badge {
+    align-self: flex-start;
+  }
+  .msra-guest-sync-banner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.625rem;
+  }
+}
+
+/* Forms */
+.msra-form-group {
+  margin-bottom: 1.125rem;
+}
+
+.msra-form-label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-slate-700);
+  margin-bottom: 0.375rem;
+}
+
+.msra-form-hint {
+  font-size: 0.75rem;
+  color: var(--color-slate-500);
+  margin-top: 0.25rem;
+}
+
+.msra-input, .msra-select {
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid var(--color-slate-300);
+  border-radius: var(--radius-md);
+  background-color: var(--color-white);
+  color: var(--color-text-title);
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.msra-input:focus, .msra-select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-glow);
+}
+
+.msra-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.875rem;
+}
+
+@media (max-width: 540px) {
+  .msra-form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.msra-duration-options {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.375rem;
+}
+
+@media (max-width: 540px) {
+  .msra-duration-options {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.msra-duration-btn {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-slate-200);
+  border-radius: var(--radius-sm);
+  padding: 0.45rem 0.25rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-slate-700);
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s ease;
+}
+
+.msra-duration-btn:hover {
+  border-color: var(--color-primary-border);
+  color: var(--color-primary);
+  background-color: var(--color-primary-light);
+}
+
+.msra-duration-btn.active {
+  background-color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+  color: var(--color-white) !important;
+  box-shadow: 0 2px 6px rgba(2, 132, 199, 0.25);
+}
+
+.msra-summary-box {
+  background-color: var(--color-primary-light);
+  border: 1px solid var(--color-primary-border);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  margin-top: 1rem;
+}
+
+.msra-summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8125rem;
+  color: var(--color-slate-600);
+  margin-bottom: 0.375rem;
+}
+
+.msra-summary-row.total {
+  border-top: 1px solid var(--color-primary-border);
+  padding-top: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--color-primary-hover);
+}
+
+/* Payment Modal Specifics */
+.msra-payment-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--color-primary-border);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+  background-color: var(--color-primary-light);
+  padding: 0.25rem;
+  gap: 0.25rem;
+}
+
+.msra-paytab-btn {
+  background-color: transparent;
+  border: none;
+  padding: 0.5625rem 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-slate-600);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: var(--radius-full);
+  transition: all 0.15s ease;
+}
+
+.msra-paytab-btn.active {
+  background-color: var(--color-primary) !important;
+  color: var(--color-white) !important;
+  box-shadow: 0 2px 6px rgba(2, 132, 199, 0.25);
+}
+
+.msra-paytab-btn.active *,
+.msra-paytab-btn.active span,
+.msra-paytab-btn.active svg {
+  color: var(--color-white) !important;
+  stroke: var(--color-white) !important;
+}
+
+.msra-qr-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-slate-200);
+  border-radius: var(--radius-lg);
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.msra-qr-canvas {
+  width: 200px;
+  height: 200px;
+  background-color: var(--color-white);
+}
+
+.msra-timer-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  font-feature-settings: 'tnum';
+  color: var(--status-warn-text);
+  background-color: var(--status-warn-bg);
+  border: 1px solid var(--status-warn-bdr);
+  padding: 0.3125rem 0.875rem;
+  border-radius: var(--radius-full);
+  margin-top: 0.75rem;
+}
+
+.msra-va-box {
+  background-color: var(--color-primary-light);
+  border: 1px solid var(--color-primary-border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.msra-va-bank-selector {
+  display: flex;
+  justify-content: center;
+  gap: 0.375rem;
+  margin-bottom: 1rem;
+}
+
+.msra-bank-btn {
+  padding: 0.3125rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border: 1px solid var(--color-slate-300);
+  background-color: var(--color-white);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  color: var(--color-slate-700);
+  transition: all 0.15s ease;
+}
+
+.msra-bank-btn:hover {
+  border-color: var(--color-primary-border);
+  color: var(--color-primary);
+}
+
+.msra-bank-btn.active {
+  background-color: var(--color-primary) !important;
+  color: var(--color-white) !important;
+  border-color: var(--color-primary) !important;
+}
+
+.msra-va-number {
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: var(--color-primary-hover);
+  margin: 0.5rem 0;
+  user-select: all;
+}
+
+/* Digital Pass */
+.msra-pass-card {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-primary-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow-md);
+}
+
+.msra-pass-header {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  padding: 1rem 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.msra-pass-header * {
+  color: var(--color-white);
+}
+
+.msra-pass-body {
+  padding: 1.25rem;
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+@media (max-width: 520px) {
+  .msra-pass-body {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .msra-pass-qr-wrap {
+    margin: 0 auto;
+  }
+}
+
+.msra-pass-qr-wrap {
+  width: 140px;
+  height: 140px;
+  border: 1px solid var(--color-primary-border);
+  border-radius: var(--radius-md);
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-white);
+}
+
+.msra-pass-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.msra-pass-item {
+  font-size: 0.75rem;
+  color: var(--color-slate-500);
+  font-weight: 500;
+}
+
+.msra-pass-value {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--color-text-title);
+}
+
+/* Phone Modal Notice & Input Group */
+.msra-phone-notice {
+  background-color: var(--color-primary-light);
+  border: 1px solid var(--color-primary-border);
+  border-radius: var(--radius-md);
+  padding: 0.875rem 1rem;
+  font-size: 0.8125rem;
+  color: var(--color-slate-700);
+  display: flex;
+  gap: 0.625rem;
+  align-items: flex-start;
+  margin-bottom: 1.25rem;
+}
+
+.msra-phone-notice svg {
+  color: var(--color-primary);
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+.msra-input-phone-group {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--color-slate-300);
+  border-radius: var(--radius-md);
+  background-color: var(--color-white);
+  overflow: hidden;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.msra-input-phone-group:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-glow);
+}
+
+.msra-phone-prefix {
+  padding: 0.625rem 0.875rem;
+  background-color: var(--color-primary-light);
+  border-right: 1px solid var(--color-primary-border);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  user-select: none;
+}
+
+.msra-input-phone-group .msra-input {
+  border: none;
+  border-radius: 0;
+  box-shadow: none !important;
+}
+
+/* Scanner */
+.msra-terminal {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-slate-200);
+  border-radius: var(--radius-xl);
+  padding: 1.75rem;
+  max-width: 640px;
+  margin: 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.msra-terminal-viewfinder {
+  border: 2px dashed var(--color-primary-border);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  background-color: var(--color-primary-light);
+  margin-bottom: 1.25rem;
+}
+
+.msra-solenoid-active {
+  background-color: var(--status-active-bg);
+  border: 1px solid var(--status-active-bdr);
+  color: var(--status-active-text);
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  text-align: center;
+  font-weight: 700;
+  margin-top: 1rem;
+}
+
+/* Table */
+.msra-table-wrap {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-slate-200);
+  border-radius: var(--radius-lg);
+  overflow-x: auto;
+  box-shadow: var(--shadow-sm);
+}
+
+.msra-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+  text-align: left;
+}
+
+.msra-table th {
+  background-color: var(--color-primary-light);
+  padding: 0.875rem 1rem;
+  font-weight: 700;
+  color: var(--color-primary-hover);
+  border-bottom: 1px solid var(--color-slate-200);
+  white-space: nowrap;
+}
+
+.msra-table td {
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--color-slate-200);
+  color: var(--color-text-body);
+}
+
+.msra-table tr:last-child td {
+  border-bottom: none;
+}
+
+.msra-table tr:hover td {
+  background-color: var(--color-canvas);
+}
+
+/* Toasts */
+.msra-toast-container {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+
+.msra-toast {
+  background-color: var(--color-primary) !important;
+  color: var(--color-white) !important;
+  padding: 0.6875rem 1.125rem;
+  border-radius: var(--radius-full);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: var(--shadow-lg);
+  pointer-events: auto;
+  animation: msraToastIn 0.2s ease-out;
+}
+
+.msra-toast *,
+.msra-toast span,
+.msra-toast svg {
+  color: var(--color-white) !important;
+  stroke: var(--color-white) !important;
+}
+
+@keyframes msraToastIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile Nav (Floating Elevated Bar) */
+.msra-mobile-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--color-slate-200);
+  z-index: 40;
+  padding: 0.4rem 0.5rem calc(0.4rem + env(safe-area-inset-bottom, 0px));
+  justify-content: space-around;
+  box-shadow: 0 -4px 16px rgba(15, 23, 42, 0.05);
+}
+
+@media (max-width: 768px) {
+  .msra-header .msra-nav {
+    display: none;
+  }
+  .msra-mobile-nav {
+    display: flex;
+  }
+  body {
+    padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+.msra-mob-btn {
+  background: none;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  color: var(--color-slate-500);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  padding: 0.35rem 0.75rem;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: all 0.15s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.msra-mob-btn:hover {
+  color: var(--color-primary);
+}
+
+.msra-mob-btn.active {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.msra-mob-btn.active svg {
+  stroke-width: 2.3;
+  stroke: var(--color-primary);
+}
+
+/* ==========================================================================
+   GOOGLE AUTH & USER PROFILE WIDGET
+   ========================================================================== */
+.msra-auth-wrap {
+  position: static;
+  display: inline-flex;
+  align-items: center;
+}
+
+.msra-auth-logged-in {
+  position: static;
+  display: inline-flex;
+  align-items: center;
+}
+
+.msra-btn-google {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-slate-300);
+  color: var(--color-text-title);
+  box-shadow: var(--shadow-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.9375rem;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.msra-btn-google:hover {
+  background-color: var(--color-primary-light);
+  border-color: var(--color-primary-border);
+  color: var(--color-primary);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.msra-user-profile-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  outline: none !important;
+  box-shadow: none !important;
+  transition: opacity 0.15s ease;
+}
+
+.msra-user-profile-btn:hover {
+  opacity: 0.85;
+}
+
+.msra-user-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: var(--color-primary-light);
+  border: 1.5px solid var(--color-primary-border) !important;
+}
+
+.msra-user-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+  text-align: left;
+}
+
+.msra-user-name {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--color-text-title);
+}
+
+.msra-user-phone-badge {
+  font-size: 0.6875rem;
+  color: var(--color-slate-500);
+  font-family: var(--font-mono);
+}
+
+/* User Menu Dropdown (Fixed Right-Aligned Anchor) */
+.msra-user-dropdown {
+  position: fixed;
+  top: 60px;
+  right: 1.5rem;
+  width: 280px;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-slate-200);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  padding: 0.75rem;
+  z-index: 1000;
+  animation: msraDropdownIn 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes msraDropdownIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.msra-user-dropdown-header {
+  padding: 0.5rem 0.5rem 0.75rem;
+}
+
+.msra-dropdown-name {
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: var(--color-text-title);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.msra-dropdown-email {
+  font-size: 0.75rem;
+  color: var(--color-slate-500);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.msra-dropdown-phone {
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  color: var(--color-primary);
+  font-weight: 600;
+  margin-top: 0.2rem;
+}
+
+.msra-dropdown-divider {
+  height: 1px;
+  background-color: var(--color-slate-200);
+  margin: 0.5rem 0;
+}
+
+.msra-dropdown-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.5625rem 0.75rem;
+  border-radius: var(--radius-md);
+  border: none;
+  background: transparent;
+  color: var(--color-slate-700);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease;
+}
+
+.msra-dropdown-item:hover {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+.msra-dropdown-item.danger {
+  color: var(--status-err-text);
+}
+
+.msra-dropdown-item.danger:hover {
+  background-color: var(--status-err-bg);
+  color: var(--status-err-text);
+}

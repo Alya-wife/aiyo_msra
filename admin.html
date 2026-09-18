@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="no-referrer-when-downgrade" />
+  <title>MSRA Admin Console — Panel Pengelola Ruang & Akses</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap"
+    rel="stylesheet" />
+  <!-- Favicons (MSRA Icon) -->
+  <link rel="shortcut icon" href="./assets/iconmsra.png?v=22" />
+  <link rel="icon" type="image/png" href="./assets/iconmsra.png?v=22" />
+  <link rel="apple-touch-icon" href="./assets/iconmsra.png?v=22" />
+  <meta name="theme-color" content="#234c6a" />
+
+  <link rel="stylesheet" href="./assets/admin.css?v=8" />
+</head>
+
+<body>
+  <!-- Admin Header Navigation -->
+  <header class="admin-header">
+    <div class="admin-header-inner">
+      <div style="display: flex; align-items: center; gap: 1.5rem;">
+        <a href="./admin.html" class="admin-brand" title="Panel Admin MSRA">
+          <img src="./assets/logomsra.jpeg?v=23" alt="MSRA Admin" class="msra-brand-logo-img msra-logo-desktop" />
+          <img src="./assets/iconmsra.png?v=23" alt="MSRA Admin" class="msra-brand-logo-img msra-logo-mobile" />
+        </a>
+
+        <nav class="admin-nav" id="admin-main-nav">
+          <button type="button" class="admin-nav-btn active" data-tab="dashboard">
+            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            <span>Dashboard & Transaksi</span>
+          </button>
+          <button type="button" class="admin-nav-btn" data-tab="active_rooms">
+            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg>
+            <span>Ruangan Aktif</span>
+          </button>
+          <button type="button" class="admin-nav-btn" data-tab="rooms">
+            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            <span>Kelola Ruangan</span>
+          </button>
+          <button type="button" class="admin-nav-btn" data-tab="admins">
+            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            <span>Kelola Admin</span>
+          </button>
+          <button type="button" class="admin-nav-btn" data-tab="access_logs">
+            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            <span>Audit Akses IoT</span>
+          </button>
+        </nav>
+      </div>
+
+      <div class="admin-header-actions">
+        <div class="admin-user-pill">
+          <img id="admin-user-avatar" src="" alt="Admin Avatar" class="admin-user-avatar" referrerpolicy="no-referrer" />
+          <div>
+            <div id="admin-user-name" style="line-height: 1.1;">Admin</div>
+          </div>
+          <span class="admin-badge active" style="padding: 0.1rem 0.35rem; font-size: 0.5625rem;">ADMIN</span>
+        </div>
+        <a href="./index.html" class="btn-secondary-link" title="Kembali ke antarmuka katalog pemesanan publik">
+          <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2" fill="none"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          <span>Web Publik</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ACCESS GUARD CONTAINER (if unauthorized) -->
+  <div class="admin-guard-wrap hidden" id="admin-guard-container">
+    <div class="admin-guard-card">
+      <div style="width: 48px; height: 48px; border-radius: 50%; background-color: var(--status-err-bg); border: 1px solid var(--status-err-bdr); color: var(--status-err-text); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem;">
+        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+      </div>
+      <h2 style="font-size: 1.25rem; font-weight: 800; color: var(--color-obsidian); margin-bottom: 0.5rem;">Akses Terbatas: Administrator Only</h2>
+      <p style="font-size: 0.8125rem; color: var(--color-slate-600); margin-bottom: 1.5rem; line-height: 1.6;">
+        Halaman ini khusus untuk pengelola sistem MSRA. Akun Anda saat ini belum terdaftar sebagai administrator. Silakan login menggunakan akun Google admin yang telah terverifikasi.
+      </p>
+      <div style="display: flex; gap: 0.75rem; justify-content: center;">
+        <a href="./index.html" class="admin-btn admin-btn-primary" style="text-decoration: none;">
+          Kembali ke Katalog Publik
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN CONTENT WRAPPER -->
+  <main class="admin-main" id="admin-content-container">
+
+    <!-- ==========================================
+         TAB 1: DASHBOARD & TRANSAKSI
+         ========================================== -->
+    <section id="admin-tab-dashboard">
+      <div class="admin-page-header">
+        <div>
+          <h1 class="admin-page-title">Dashboard Transaksi</h1>
+        </div>
+      </div>
+
+      <!-- KPI Summary Cards -->
+      <div class="admin-kpi-grid">
+        <div class="admin-kpi-card">
+          <div class="admin-kpi-label">Total Pendapatan Lunas</div>
+          <div class="admin-kpi-value" id="kpi-revenue">Rp 0</div>
+          <div class="admin-kpi-subtext">Dari seluruh sesi sewa berhasil</div>
+        </div>
+        <div class="admin-kpi-card">
+          <div class="admin-kpi-label">Total Transaksi Masuk</div>
+          <div class="admin-kpi-value" id="kpi-transactions">0 Pemesanan</div>
+          <div class="admin-kpi-subtext">Volume reservasi terdaftar</div>
+        </div>
+        <div class="admin-kpi-card">
+          <div class="admin-kpi-label">Ruangan Terisi Hari Ini</div>
+          <div class="admin-kpi-value" id="kpi-active-rooms">0 Ruang Aktif</div>
+          <div class="admin-kpi-subtext">Sesi peminjaman aktif</div>
+        </div>
+        <div class="admin-kpi-card">
+          <div class="admin-kpi-label">Menunggu Pembayaran</div>
+          <div class="admin-kpi-value" id="kpi-pending">0 Menunggu</div>
+          <div class="admin-kpi-subtext">Menunggu proses verifikasi</div>
+        </div>
+      </div>
+
+      <!-- Transactions Panel -->
+      <div class="admin-panel">
+        <div class="admin-panel-header">
+          <div class="admin-panel-title">Histori Transaksi Pemesanan Ruangan</div>
+          <div class="admin-filter-strip">
+            <input type="text" id="admin-search-transactions" class="admin-search-input" placeholder="Cari nama, email, order ID, atau ruangan..." />
+            <select id="admin-filter-status" class="admin-select">
+              <option value="all">Semua Status</option>
+              <option value="paid">Lunas (Paid)</option>
+              <option value="pending_payment">Menunggu Pembayaran</option>
+              <option value="expired">Kadaluarsa</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>ID Reservasi</th>
+                <th>Ruangan & Pintu</th>
+                <th>Penyewa</th>
+                <th>Jadwal Sesi</th>
+                <th>Total Bayar</th>
+                <th>Metode Bayar</th>
+                <th>Status</th>
+                <th>Waktu Transaksi</th>
+              </tr>
+            </thead>
+            <tbody id="admin-tx-tbody">
+              <tr>
+                <td colspan="8" style="text-align: center; padding: 2rem; color: var(--color-slate-400);">Memuat data transaksi...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         TAB 2: RUANGAN AKTIF SETELAH PEMBAYARAN
+         ========================================== -->
+    <section id="admin-tab-active_rooms" style="display: none;">
+      <div class="admin-page-header">
+        <div>
+          <h1 class="admin-page-title">Ruangan Aktif</h1>
+        </div>
+      </div>
+
+      <div class="admin-active-grid" id="admin-active-grid">
+        <!-- Injected via admin.js -->
+        <div style="grid-column: 1 / -1; padding: 3rem; text-align: center; color: var(--color-slate-400);">
+          Memuat status live ruangan...
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         TAB 3: EDIT & KELOLA RUANGAN
+         ========================================== -->
+    <section id="admin-tab-rooms" style="display: none;">
+      <div class="admin-page-header">
+        <div>
+          <h1 class="admin-page-title">Katalog Ruangan</h1>
+        </div>
+      </div>
+
+      <div class="admin-panel">
+        <div class="admin-panel-header">
+          <div class="admin-panel-title">Daftar Ruangan Komersial MSRA</div>
+          <button type="button" class="admin-btn admin-btn-primary" id="admin-btn-open-add-room">
+            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <span>Tambah Ruangan Baru</span>
+          </button>
+        </div>
+
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Nama Ruangan & Tipe</th>
+                <th>Nomor Pintu & Lantai</th>
+                <th>Kapasitas</th>
+                <th>Tarif Sewa</th>
+                <th>Status Peminjaman</th>
+                <th>Frekuensi Sewa Lunas</th>
+                <th style="text-align: right;">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="admin-rooms-tbody">
+              <tr>
+                <td colspan="7" style="text-align: center; padding: 2rem; color: var(--color-slate-400);">Memuat katalog ruangan...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         TAB 4: KELOLA ADMIN
+         ========================================== -->
+    <section id="admin-tab-admins" style="display: none;">
+      <div class="admin-page-header">
+        <div>
+          <h1 class="admin-page-title">Kelola Administrator</h1>
+        </div>
+      </div>
+
+      <!-- Add Admin Form Panel -->
+      <div class="admin-panel">
+        <div class="admin-panel-header">
+          <div class="admin-panel-title">Pendaftaran Role Admin Baru</div>
+        </div>
+        <div style="padding: 1.25rem;">
+          <form id="admin-form-add-admin" style="display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: flex-end;">
+            <div class="admin-form-group" style="flex: 1; min-width: 260px;">
+              <label class="admin-form-label" for="admin-new-email">Alamat Email Akun Google:</label>
+              <input type="email" id="admin-new-email" class="admin-form-input" placeholder="contoh: staf.gedung@gmail.com" required />
+            </div>
+            <div class="admin-form-group" style="flex: 1; min-width: 200px;">
+              <label class="admin-form-label" for="admin-new-name">Nama Pengelola (Opsional):</label>
+              <input type="text" id="admin-new-name" class="admin-form-input" placeholder="contoh: Dimas Rizky" />
+            </div>
+            <button type="submit" class="admin-btn admin-btn-primary" style="height: 38px;">
+              <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>Tetapkan sebagai Admin</span>
+            </button>
+          </form>
+          <div style="font-size: 0.75rem; color: var(--color-slate-500); margin-top: 0.75rem;">
+            Catatan: Saat pemilik email ini melakukan login via Google Sign-In, sistem secara otomatis memberikan hak akses penuh ke Panel Admin ini.
+          </div>
+        </div>
+      </div>
+
+      <!-- Admins List Table -->
+      <div class="admin-panel">
+        <div class="admin-panel-header">
+          <div class="admin-panel-title">Daftar Administrator Terverifikasi</div>
+        </div>
+
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Nama & Email Pengelola</th>
+                <th>Tingkat Hak Akses</th>
+                <th>Tanggal Terdaftar</th>
+                <th style="text-align: right;">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="admin-users-tbody">
+              <tr>
+                <td colspan="4" style="text-align: center; padding: 2rem; color: var(--color-slate-400);">Memuat daftar admin...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         TAB 5: AUDIT LOG AKSES PINTU IOT
+         ========================================== -->
+    <section id="admin-tab-access_logs" style="display: none;">
+      <div class="admin-page-header">
+        <div>
+          <h1 class="admin-page-title">Audit Log Akses Pintu IoT</h1>
+          <p style="font-size: 0.8125rem; color: var(--color-slate-600); margin-top: 0.25rem;">
+            Rekam jejak seluruh aktivitas pemindaian QR pintu pintar & eksekusi solenoid relay. Khusus administrator gedung.
+          </p>
+        </div>
+        <button type="button" class="admin-btn admin-btn-secondary" id="admin-btn-refresh-logs">
+          <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+          <span>Segarkan Log</span>
+        </button>
+      </div>
+
+      <div class="admin-panel">
+        <div class="admin-panel-header">
+          <div class="admin-panel-title">Riwayat Percobaan Buka Pintu</div>
+          <div class="admin-filter-strip">
+            <input type="text" id="admin-search-logs" class="admin-search-input" placeholder="Cari nama pelanggan, ruangan, nomor pintu..." />
+            <select id="admin-filter-log-status" class="admin-select">
+              <option value="all">Semua Status</option>
+              <option value="granted">Granted (Berhasil Terbuka)</option>
+              <option value="denied">Denied (Ditolak)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Waktu Akses</th>
+                <th>Ruangan</th>
+                <th>Nomor Pintu</th>
+                <th>Nama Pelanggan / Tamu</th>
+                <th>Status Izin</th>
+                <th>Alasan / Keterangan</th>
+              </tr>
+            </thead>
+            <tbody id="admin-access-logs-tbody">
+              <tr>
+                <td colspan="6" style="text-align: center; padding: 2rem; color: var(--color-slate-400);">Memuat rekam jejak akses pintu...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================
+       MODAL: EDIT RUANGAN
+       ========================================== -->
+  <div class="admin-modal-backdrop hidden" id="admin-modal-edit-room">
+    <div class="admin-modal-container">
+      <div class="admin-modal-header">
+        <h3 class="admin-modal-title">Edit Data & Status Ruangan</h3>
+        <button type="button" class="admin-btn admin-btn-secondary admin-btn-sm" id="admin-btn-close-edit-modal" style="padding: 0.3rem;">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <form id="admin-form-edit-room">
+        <div class="admin-modal-body">
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="edit-room-name">Nama Ruangan:</label>
+            <input type="text" id="edit-room-name" class="admin-form-input" required />
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="edit-room-type">Tipe Ruang:</label>
+              <input type="text" id="edit-room-type" class="admin-form-input" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="edit-room-capacity">Kapasitas (Orang):</label>
+              <input type="number" id="edit-room-capacity" class="admin-form-input" min="1" max="100" required />
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="edit-room-price">Tarif Sewa (Rp / Jam):</label>
+              <input type="number" id="edit-room-price" class="admin-form-input" min="1000" step="1000" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="edit-room-status">Ketersediaan untuk Dipinjam:</label>
+              <select id="edit-room-status" class="admin-form-select" required>
+                <option value="available">Tersedia untuk Dipinjam</option>
+                <option value="maintenance">Dalam Pemeliharaan (Maintenance)</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="edit-room-door">Nomor Label Pintu:</label>
+              <input type="text" id="edit-room-door" class="admin-form-input" placeholder="contoh: Room 101" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="edit-room-floor">Lokasi Lantai:</label>
+              <input type="text" id="edit-room-floor" class="admin-form-input" placeholder="contoh: Lantai 2" required />
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-modal-footer">
+          <button type="button" class="admin-btn admin-btn-secondary" id="admin-btn-cancel-edit">Batal</button>
+          <button type="submit" class="admin-btn admin-btn-primary">Simpan Perubahan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL: TAMBAH RUANGAN BARU
+       ========================================== -->
+  <div class="admin-modal-backdrop hidden" id="admin-modal-add-room">
+    <div class="admin-modal-container">
+      <div class="admin-modal-header">
+        <h3 class="admin-modal-title">Tambah Ruangan Baru ke Katalog</h3>
+        <button type="button" class="admin-btn admin-btn-secondary admin-btn-sm" id="admin-btn-close-add-modal" style="padding: 0.3rem;">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <form id="admin-form-add-room">
+        <div class="admin-modal-body">
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="add-room-name">Nama Ruangan:</label>
+            <input type="text" id="add-room-name" class="admin-form-input" placeholder="contoh: Creative Collab Studio" required />
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="add-room-code">Kode Ruang:</label>
+              <input type="text" id="add-room-code" class="admin-form-input" placeholder="contoh: ROOM-205" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="add-room-type">Tipe Ruang:</label>
+              <input type="text" id="add-room-type" class="admin-form-input" placeholder="contoh: Meeting Room / Pod" required />
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="add-room-capacity">Kapasitas (Orang):</label>
+              <input type="number" id="add-room-capacity" class="admin-form-input" min="1" max="100" value="4" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="add-room-price">Tarif Sewa (Rp / Jam):</label>
+              <input type="number" id="add-room-price" class="admin-form-input" min="1000" step="1000" value="150000" required />
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="add-room-door">Nomor Label Pintu:</label>
+              <input type="text" id="add-room-door" class="admin-form-input" placeholder="contoh: Room 205" required />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-form-label" for="add-room-floor">Lokasi Lantai:</label>
+              <input type="text" id="add-room-floor" class="admin-form-input" placeholder="contoh: Lantai 2 - Sayap Barat" required />
+            </div>
+          </div>
+
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="add-room-status">Ketersediaan untuk Dipinjam:</label>
+            <select id="add-room-status" class="admin-form-select" required>
+              <option value="available" selected>Tersedia untuk Dipinjam</option>
+              <option value="maintenance">Dalam Pemeliharaan (Maintenance)</option>
+            </select>
+          </div>
+
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="add-room-facilities">Fasilitas (pisahkan dengan koma):</label>
+            <input type="text" id="add-room-facilities" class="admin-form-input" placeholder="contoh: Wi-Fi 6, Smart Display 65 Inch, Whiteboard, Kunci Solenoid" />
+          </div>
+
+          <div class="admin-form-group">
+            <label class="admin-form-label" for="add-room-image">URL Foto Ruangan (Opsional):</label>
+            <input type="url" id="add-room-image" class="admin-form-input" placeholder="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80" />
+          </div>
+        </div>
+
+        <div class="admin-modal-footer">
+          <button type="button" class="admin-btn admin-btn-secondary" id="admin-btn-cancel-add">Batal</button>
+          <button type="submit" class="admin-btn admin-btn-primary">Simpan & Publikasikan ke Katalog</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="./assets/admin.js?v=5"></script>
+</body>
+
+</html>

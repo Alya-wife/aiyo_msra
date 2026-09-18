@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>MSRA — Money Smart Room Access</title>
+  <meta name="description"
+    content="Sistem Pemesanan & Akses Ruangan Komersial Cerdas dengan Integrasi Pembayaran Aiyo dan IoT Door Lock Solenoid." />
+
+  <!-- PWA Icons & Manifest (Synchronized with MSRA Icon: iconmsra.png) -->
+  <link rel="shortcut icon" href="./assets/iconmsra.png?v=22" />
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png?v=22" />
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png?v=22" />
+  <link rel="icon" type="image/png" href="./assets/iconmsra.png?v=22" />
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png?v=22" />
+  <link rel="manifest" href="./manifest.json?v=22" />
+
+  <!-- Mobile & PWA Meta Tags -->
+  <meta name="theme-color" content="#234c6a" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="MSRA" />
+  <meta name="msapplication-TileColor" content="#234c6a" />
+  <meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Google Identity Services (OAuth Login) -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+  <!-- MSRA Stylesheet (v29) -->
+  <link rel="stylesheet" href="./assets/msra.css?v=29" />
+</head>
+
+<body>
+  <!-- Top Header with Flagship MSRA Branding -->
+  <header class="msra-header">
+    <div class="msra-header-inner">
+      <div class="msra-brand" id="msra-brand-home" title="Beranda MSRA">
+        <img src="./assets/logomsra.jpeg?v=23" alt="MSRA" class="msra-brand-logo-img msra-logo-desktop" />
+        <img src="./assets/iconmsra.png?v=23" alt="MSRA" class="msra-brand-logo-img msra-logo-mobile" />
+      </div>
+
+      <nav class="msra-nav">
+        <button type="button" class="msra-nav-btn active" data-tab="rooms">
+          <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none">
+            <rect x="3" y="3" width="7" height="7" />
+            <rect x="14" y="3" width="7" height="7" />
+            <rect x="14" y="14" width="7" height="7" />
+            <rect x="3" y="14" width="7" height="7" />
+          </svg>
+          <span>Katalog Ruang</span>
+        </button>
+        <button type="button" class="msra-nav-btn" data-tab="tickets">
+          <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none">
+            <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+            <line x1="1" y1="10" x2="23" y2="10" />
+          </svg>
+          <span>Tiket Akses Saya</span>
+          <span class="msra-nav-badge js-ticket-count" style="display: none;">0</span>
+        </button>
+        <button type="button" class="msra-nav-btn" data-tab="scanner">
+          <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none">
+            <polyline points="4 17 10 11 4 5" />
+            <line x1="12" y1="19" x2="20" y2="19" />
+          </svg>
+          <span>Pindai QR Pintu</span>
+        </button>
+        <button type="button" class="msra-nav-btn" data-tab="logs" id="msra-nav-logs" style="display: none;">
+          <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none">
+            <line x1="8" y1="6" x2="21" y2="6" />
+            <line x1="8" y1="12" x2="21" y2="12" />
+            <line x1="8" y1="18" x2="21" y2="18" />
+            <line x1="3" y1="6" x2="3.01" y2="6" />
+            <line x1="3" y1="12" x2="3.01" y2="12" />
+            <line x1="3" y1="18" x2="3.01" y2="18" />
+          </svg>
+          <span>Audit Log Akses</span>
+        </button>
+      </nav>
+
+      <div class="msra-header-meta">
+        <!-- Google Sign-In & User Account Profile -->
+        <div class="msra-auth-wrap" id="msra-auth-wrap">
+          <div id="msra-auth-logged-out" class="msra-auth-logged-out">
+            <button type="button" class="msra-btn msra-btn-google msra-btn-sm" id="msra-btn-google-login" title="Masuk dengan Akun Google">
+              <svg viewBox="0 0 24 24" width="14" height="14">
+                <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+                <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.26v3.15C3.25 21.37 7.33 24 12 24z"/>
+                <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.26C.46 8.16 0 9.94 0 12s.46 3.84 1.26 5.42l4.02-3.15z"/>
+                <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.25 2.63 1.26 6.58l4.02 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+              </svg>
+              <span class="msra-desktop-only">Masuk Google</span>
+            </button>
+            <div id="msra-gsi-button-container" style="position: absolute; opacity: 0.01; pointer-events: none; width: 1px; height: 1px; overflow: hidden;"></div>
+          </div>
+
+          <div id="msra-auth-logged-in" class="msra-auth-logged-in hidden" style="display: none;">
+            <button type="button" class="msra-user-profile-btn" id="msra-user-profile-btn" aria-haspopup="true" aria-expanded="false">
+              <img id="msra-user-avatar" src="" alt="Avatar" class="msra-user-avatar" referrerpolicy="no-referrer" />
+              <div class="msra-user-info msra-desktop-only">
+                <span class="msra-user-name" id="msra-user-name"></span>
+                <span class="msra-user-phone-badge" id="msra-user-phone-badge"></span>
+              </div>
+              <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2" fill="none" class="msra-desktop-only">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+
+            <!-- User Menu Dropdown -->
+            <div class="msra-user-dropdown hidden" id="msra-user-dropdown" style="display: none;">
+              <div class="msra-user-dropdown-header" style="display: flex; align-items: center; gap: 0.75rem;">
+                <img id="msra-dropdown-avatar" src="" alt="Avatar" class="msra-user-avatar" referrerpolicy="no-referrer" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 1px solid var(--color-slate-200); flex-shrink: 0;" />
+                <div style="min-width: 0; flex: 1;">
+                  <div class="msra-dropdown-name" id="msra-dropdown-name"></div>
+                  <div class="msra-dropdown-email" id="msra-dropdown-email"></div>
+                  <div class="msra-dropdown-phone" id="msra-dropdown-phone"></div>
+                </div>
+              </div>
+              <div class="msra-dropdown-divider"></div>
+              <a href="./admin.html" class="msra-dropdown-item hidden" id="msra-link-admin" style="display: none; text-decoration: none;">
+                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none">
+                  <rect x="3" y="3" width="7" height="7"></rect>
+                  <rect x="14" y="3" width="7" height="7"></rect>
+                  <rect x="14" y="14" width="7" height="7"></rect>
+                  <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+                <span style="font-weight: 700; color: var(--color-obsidian);">Panel Admin MSRA</span>
+              </a>
+              <button type="button" class="msra-dropdown-item" id="msra-btn-edit-phone">
+                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+                <span>Ubah Nomor HP / WA</span>
+              </button>
+              <button type="button" class="msra-dropdown-item danger" id="msra-btn-logout">
+                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                  <polyline points="16 17 21 12 16 7"></polyline>
+                  <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+                <span>Keluar (Logout)</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="msra-btn msra-btn-secondary msra-btn-sm js-install-pwa-btn" id="msra-btn-install-pwa" title="Pasang Aplikasi MSRA (PWA)">
+          <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2" fill="none">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+          <span class="msra-desktop-only">Pasang App</span>
+        </button>
+        <div class="msra-system-status" title="Sistem Terhubung">
+          <span class="msra-status-dot" id="msra-status-dot"></span>
+          <span id="msra-status-text" class="msra-desktop-only">Sistem Terhubung</span>
+        </div>
+        <button type="button" class="msra-btn msra-btn-secondary msra-btn-sm" id="msra-btn-refresh"
+          title="Perbarui Data">
+          <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none">
+            <polyline points="23 4 23 10 17 10" />
+            <polyline points="1 20 1 14 7 14" />
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="msra-main">
+    <!-- VIEW 1: ROOMS CATALOG -->
+    <section id="msra-view-rooms">
+      <div class="msra-page-header">
+        <h1 class="msra-page-title">Katalog Ruangan</h1>
+      </div>
+
+      <div class="msra-filter-panel">
+        <div class="msra-filter-search-group">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input type="text" id="msra-search-input" placeholder="Cari nama ruangan, lantai, atau fasilitas..." />
+        </div>
+        <div class="msra-filter-tags">
+          <button type="button" class="msra-tag-btn active" data-category="all">Semua Ruang</button>
+          <button type="button" class="msra-tag-btn" data-category="VIP Meeting Room">VIP Meeting Room</button>
+          <button type="button" class="msra-tag-btn" data-category="Podcast Studio">Podcast Studio</button>
+          <button type="button" class="msra-tag-btn" data-category="Coworking Pod">Coworking Pod</button>
+          <button type="button" class="msra-tag-btn" data-category="Workshop Space">Workshop Space</button>
+        </div>
+      </div>
+
+      <div class="msra-grid" id="msra-rooms-grid">
+        <!-- Room cards injected by msra.js -->
+      </div>
+    </section>
+
+    <!-- VIEW 2: MY TICKETS / PASSES -->
+    <section id="msra-view-tickets" style="display: none;">
+      <div class="msra-page-header">
+        <h1 class="msra-page-title">Tiket Akses</h1>
+      </div>
+      <div id="msra-tickets-container"></div>
+    </section>
+
+    <!-- VIEW 3: SCANNER / TERMINAL -->
+    <section id="msra-view-scanner" style="display: none;">
+      <div class="msra-page-header">
+        <h1 class="msra-page-title">Pindai Pintu Pintar</h1>
+      </div>
+      <div id="msra-scanner-container"></div>
+    </section>
+
+    <!-- VIEW 4: AUDIT ACCESS LOGS -->
+    <section id="msra-view-logs" style="display: none;">
+      <div class="msra-page-header">
+        <h1 class="msra-page-title">Audit Akses</h1>
+      </div>
+      <div id="msra-logs-container"></div>
+    </section>
+  </main>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="msra-mobile-nav">
+    <button type="button" class="msra-mob-btn active" data-tab="rooms">
+      <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+        <rect x="3" y="3" width="7" height="7" />
+        <rect x="14" y="3" width="7" height="7" />
+        <rect x="14" y="14" width="7" height="7" />
+        <rect x="3" y="14" width="7" height="7" />
+      </svg>
+      <span>Katalog</span>
+    </button>
+    <button type="button" class="msra-mob-btn" data-tab="tickets">
+      <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+        <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+        <line x1="1" y1="10" x2="23" y2="10" />
+      </svg>
+      <span>Tiket Saya</span>
+    </button>
+    <button type="button" class="msra-mob-btn" data-tab="scanner">
+      <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+        <polyline points="4 17 10 11 4 5" />
+        <line x1="12" y1="19" x2="20" y2="19" />
+      </svg>
+      <span>Pindai QR</span>
+    </button>
+    <button type="button" class="msra-mob-btn" data-tab="logs" id="msra-mob-logs" style="display: none;">
+      <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+        <line x1="8" y1="6" x2="21" y2="6" />
+        <line x1="8" y1="12" x2="21" y2="12" />
+        <line x1="8" y1="18" x2="21" y2="18" />
+        <line x1="3" y1="6" x2="3.01" y2="6" />
+        <line x1="3" y1="12" x2="3.01" y2="12" />
+        <line x1="3" y1="18" x2="3.01" y2="18" />
+      </svg>
+      <span>Log IoT</span>
+    </button>
+  </nav>
+
+  <!-- MODAL 1: BOOKING FORM -->
+  <div class="msra-modal-backdrop hidden" id="msra-booking-modal-backdrop">
+    <div class="msra-modal" role="dialog" aria-modal="true">
+      <div class="msra-modal-header">
+        <div class="msra-modal-title" id="msra-book-title">Pemesanan Ruangan</div>
+        <button type="button" class="msra-modal-close" id="msra-btn-close-book-modal" aria-label="Tutup">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+      <div class="msra-modal-body" id="msra-book-body">
+        <!-- Populated dynamically -->
+      </div>
+      <div class="msra-modal-footer">
+        <button type="button" class="msra-btn msra-btn-secondary" id="msra-btn-cancel-book">Batal</button>
+        <button type="button" class="msra-btn msra-btn-primary" id="msra-btn-confirm-booking">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
+            <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+            <line x1="1" y1="10" x2="23" y2="10" />
+          </svg>
+          <span>Kunci Slot & Lanjut Bayar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: AIYO BILLS PAYMENT (QRIS & VA) -->
+  <div class="msra-modal-backdrop hidden" id="msra-payment-modal-backdrop">
+    <div class="msra-modal" role="dialog" aria-modal="true">
+      <div class="msra-modal-header">
+        <div>
+          <div class="msra-modal-title" id="msra-pay-modal-title">Pembayaran Aiyo Bills</div>
+          <div id="msra-pay-booking-display"
+            style="font-size: 0.75rem; color: var(--color-slate-500); margin-top: 0.125rem;"></div>
+        </div>
+        <button type="button" class="msra-modal-close" id="msra-btn-close-pay-modal" aria-label="Tutup">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+      <div class="msra-modal-body">
+        <!-- Amount Highlight Box -->
+        <div
+          style="background-color: var(--color-obsidian); color: var(--color-white); padding: 1.125rem; border-radius: var(--radius-md); text-align: center; margin-bottom: 1.25rem;">
+          <div
+            style="font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-slate-400); font-weight: 700;">
+            Total Tagihan</div>
+          <div id="msra-pay-amount-display"
+            style="font-size: 1.625rem; font-weight: 800; font-feature-settings: 'tnum'; margin-top: 0.25rem; color: var(--color-white);">
+            Rp 0</div>
+        </div>
+
+        <!-- Channel Tabs -->
+        <div class="msra-payment-tabs">
+          <button type="button" class="msra-paytab-btn active" id="msra-tab-qris">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
+              <rect x="3" y="3" width="7" height="7" />
+              <rect x="14" y="3" width="7" height="7" />
+              <rect x="14" y="14" width="7" height="7" />
+              <rect x="3" y="14" width="7" height="7" />
+            </svg>
+            <span>QRIS (Semua Bank / E-Wallet)</span>
+          </button>
+          <button type="button" class="msra-paytab-btn" id="msra-tab-va">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
+              <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+              <line x1="1" y1="10" x2="23" y2="10" />
+            </svg>
+            <span>Virtual Account</span>
+          </button>
+        </div>
+
+        <!-- Dynamic Method Area (QR or VA) -->
+        <div id="msra-pay-content-area"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: DIGITAL ACCESS PASS (SMART DOOR KEY) -->
+  <div class="msra-modal-backdrop hidden" id="msra-pass-modal-backdrop">
+    <div class="msra-modal" role="dialog" aria-modal="true">
+      <div class="msra-modal-header">
+        <div class="msra-modal-title" id="msra-pass-modal-title">Kunci Akses Digital</div>
+        <button type="button" class="msra-modal-close" id="msra-btn-close-pass-modal" aria-label="Tutup">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+      <div class="msra-modal-body" id="msra-pass-modal-body">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 4: INSTALL PWA GUIDE -->
+  <div class="msra-modal-backdrop hidden" id="msra-install-modal-backdrop">
+    <div class="msra-modal" role="dialog" aria-modal="true" style="max-width: 480px;">
+      <div class="msra-modal-header">
+        <div class="msra-modal-title">Pasang Aplikasi MSRA</div>
+        <button type="button" class="msra-modal-close" id="msra-btn-close-install-modal" aria-label="Tutup">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+      <div class="msra-modal-body" style="padding: 1.5rem;">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem;">
+          <img src="./pwa-192.png" width="54" height="54" style="border-radius: 12px; display: block; flex-shrink: 0;" alt="MSRA Logo" />
+          <div>
+            <h3 style="font-size: 1.125rem; font-weight: 800; color: var(--color-obsidian);">MSRA</h3>
+            <p style="font-size: 0.8125rem; color: var(--color-slate-500);">Money Smart Room Access (PWA)</p>
+          </div>
+        </div>
+
+        <p style="font-size: 0.875rem; color: var(--color-slate-600); margin-bottom: 1.25rem; line-height: 1.5;">
+          Pasang aplikasi MSRA ke layar utama perangkat untuk pemesanan instan, membuka kunci tanpa login ulang, dan menyimpan tiket akses saat offline.
+        </p>
+
+        <!-- Direct Trigger Button (When prompt available) -->
+        <div id="msra-install-direct-wrap" style="margin-bottom: 1.25rem;">
+          <button type="button" class="msra-btn msra-btn-primary msra-btn-full" id="msra-btn-direct-install">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            <span>Pasang Sekarang</span>
+          </button>
+        </div>
+
+        <!-- Manual instructions -->
+        <div style="background-color: var(--color-slate-50); border: 1px solid var(--color-slate-200); border-radius: var(--radius-lg); padding: 1rem;">
+          <div style="font-size: 0.8125rem; font-weight: 700; color: var(--color-obsidian); margin-bottom: 0.625rem;">
+            Petunjuk Berdasarkan Perangkat:
+          </div>
+          <div style="font-size: 0.8125rem; color: var(--color-slate-600); display: flex; flex-direction: column; gap: 0.625rem; line-height: 1.45;">
+            <div>
+              <strong style="color: var(--color-obsidian);">Desktop (Chrome / Edge):</strong> Klik ikon komputer dengan panah di ujung kanan bilah alamat (URL), atau buka menu titik tiga <code>⋮</code> lalu pilih <code>Pasang MSRA</code>.
+            </div>
+            <div>
+              <strong style="color: var(--color-obsidian);">Android (Chrome):</strong> Ketuk menu titik tiga <code>⋮</code> di pojok kanan atas, lalu pilih <code>Pasang Aplikasi</code> atau <code>Tambahkan ke Layar Utama</code>.
+            </div>
+            <div>
+              <strong style="color: var(--color-obsidian);">iPhone / iPad (Safari):</strong> Ketuk tombol <code>Bagikan (Share)</code> di bilah menu bawah, lalu pilih <code>Tambah ke Layar Utama</code>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 5: COMPLETE PHONE NUMBER AFTER GOOGLE LOGIN -->
+  <div class="msra-modal-backdrop hidden" id="msra-phone-modal-backdrop">
+    <div class="msra-modal" role="dialog" aria-modal="true" style="max-width: 440px;">
+      <div class="msra-modal-header">
+        <div>
+          <div class="msra-modal-title">Lengkapi Nomor WhatsApp / HP</div>
+          <div style="font-size: 0.8125rem; color: var(--color-slate-500); margin-top: 0.25rem;">
+            Akun Google: <strong id="msra-phone-modal-email" style="color: var(--color-obsidian);">user@gmail.com</strong>
+          </div>
+        </div>
+        <button type="button" class="msra-modal-close" id="msra-btn-close-phone-modal" aria-label="Tutup">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+      <div class="msra-modal-body" style="padding: 1.25rem;">
+        <div class="msra-phone-notice">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          <div>
+            Nomor HP Anda disimpan di akun ini untuk otomatis mengisi pembuatan tagihan <strong>Aiyo Bills (QRIS / VA)</strong> dan pengiriman tiket akses ruangan via WhatsApp.
+          </div>
+        </div>
+
+        <form id="msra-phone-form" onsubmit="return false;">
+          <div class="msra-form-group">
+            <label class="msra-form-label" for="msra-phone-input">Nomor WhatsApp / HP</label>
+            <div class="msra-input-phone-group">
+              <span class="msra-phone-prefix">+62</span>
+              <input type="tel" id="msra-phone-input" class="msra-input" placeholder="81234567890" maxlength="15" autocomplete="tel" />
+            </div>
+            <div class="msra-form-hint">Format Indonesia (cth: 081234567890 atau 81234567890)</div>
+          </div>
+
+          <button type="button" class="msra-btn msra-btn-primary msra-btn-full" id="msra-btn-submit-phone" style="margin-top: 1.25rem;">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Simpan Nomor HP & Lanjutkan</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notifications Container -->
+  <div class="msra-toast-container" id="msra-toasts"></div>
+
+  <!-- Client Scripts (v29) -->
+  <script src="./assets/qrcode.min.js?v=29"></script>
+  <script src="./assets/msra.js?v=29"></script>
+  <script>
+    // Register Service Worker for PWA & purge legacy caches
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        if (window.caches) {
+          caches.keys().then(keys => {
+            keys.forEach(k => {
+              if (k.includes('spacekey') || (k.startsWith('msra-pwa-') && k !== 'msra-pwa-v29')) {
+                caches.delete(k);
+              }
+            });
+          });
+        }
+        navigator.serviceWorker.register('./sw.js?v=29').then(reg => {
+          reg.update();
+        }).catch(err => {
+          console.log('ServiceWorker registration note:', err);
+        });
+      });
+    }
+  </script>
+</body>
+
+</html>

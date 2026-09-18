@@ -1,0 +1,16 @@
+
+{
+    "paymentAccountType":  "VA",
+    "paymentAccountId":  "ACC123",
+    "paymentAccountName":  "Ridwan Sanjaya",
+    "paymentAccountNumber":  "02212345678",
+    "invoiceId":  "3LH5Wm0LVv3LtJS5nozx",
+    "amount":  10000,
+    "status":  "PAID"
+}
+[2026-09-16 11:50:58] {"invoice_id":"DYRwXo48aMk34Ixl267a","booking_id":"SPK-TEST-115054","amount":10000,"status":"settlement","is_simulation":true}
+[2026-09-16 11:55:06] {"invoice_id":"4K4UbF6WQATRi4Gogrcz","booking_id":"SPK-20260916-7407","amount":99900,"status":"settlement","is_simulation":true,"access_pass_token":"SPK-PASS-COWORKINGPOD-7407"}
+[2026-09-16 11:55:07] {"invoice_id":"AYB-6-7407","booking_id":"SPK-20260916-7407","amount":99900,"status":"settlement","is_simulation":true,"access_pass_token":"SPK-PASS-COWORKINGPOD-7407"}
+[2026-09-16 12:03:11] {"invoice_id":"sV2feJjEdgg9dlaMNpSJ","booking_id":"SPK-20260916-8749","amount":99900,"status":"settlement","is_simulation":true,"access_pass_token":"SPK-PASS-COWORKINGPOD-8749"}
+[2026-09-16 12:03:12] {"invoice_id":"AYB-6-8749","booking_id":"SPK-20260916-8749","amount":99900,"status":"settlement","is_simulation":true,"access_pass_token":"SPK-PASS-COWORKINGPOD-8749"}
+[2026-09-18 12:39:31] {"invoiceId":"7ly3RRK0znQZwi8bJSLM","booking_id":"SPK-20260918-27556","status":"SETTLED","paidAmount":1110,"settlementDate":"2026-09-18T05:39:31.338Z"}

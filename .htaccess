@@ -1,0 +1,11 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /msra/
+
+    # Direct API calls to backend/public/index.php
+    RewriteRule ^api/(.*)$ backend/public/index.php [QSA,L]
+
+    # If the requested file or directory does not exist, leave as-is or let Apache handle it
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+</IfModule>

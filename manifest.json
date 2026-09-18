@@ -1,0 +1,44 @@
+{
+  "name": "MSRA - Money Smart Room Access",
+  "short_name": "MSRA",
+  "description": "Sistem Pemesanan dan Akses Ruangan Cerdas Mandiri Terintegrasi Pembayaran Aiyo dan IoT Door Lock",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f8fafb",
+  "theme_color": "#234c6a",
+  "categories": ["business", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "./assets/iconmsra.png",
+      "sizes": "220x243",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./pwa-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./pwa-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "./pwa-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./pwa-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
